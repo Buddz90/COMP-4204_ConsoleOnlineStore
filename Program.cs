@@ -6,6 +6,8 @@ using System.Threading;
 using System.Linq.Expressions;
 using COMP_4204_ConsoleOnlineStore;
 using System.Security;
+using System.Globalization;
+
 
 namespace COMP_4204_ConsoleOnlineStore
 {
@@ -33,8 +35,8 @@ namespace COMP_4204_ConsoleOnlineStore
         public static string input;
 
         public static string FirstName { get; set; }
-            public string LastName { get; set; }        
-            public string  Password { get; set; }
+        public string LastName { get; set; }        
+        public static string Password { get; set; }
             
 
         public static void SignUp()
@@ -72,10 +74,10 @@ namespace COMP_4204_ConsoleOnlineStore
             // The next time this user returns to the store, he is able to select the sign-in function.
             L4:Console.Write("\tPlease create a Password: ");
             string userPwd = Console.ReadLine();
-            UserDetails userPass = new UserDetails
-            {
-                Password = userPwd
-            };
+            UserDetails userPass = new UserDetails();
+            
+                Password = userPwd;
+            
             
 
             // >>>MAKE SURE TO VALIDATE LOGIN DETAILS<<<
@@ -99,7 +101,7 @@ namespace COMP_4204_ConsoleOnlineStore
             }    
                 else
                 {
-                if (userPass.Password != userPwd)
+                if (UserDetails.Password != userPwd)
                 Console.WriteLine("\n\tThis field is empty, try again");
                 goto L4;
                 }
@@ -112,7 +114,6 @@ namespace COMP_4204_ConsoleOnlineStore
 
         public static void SignIn()// >>>CHANGE NAME OF THIS<<< & OTHER REFS SIGN-IN
         {
-            //get; { return LastName;}
             L5:Console.Write("\tPlease enter your First Name: ");
             string CheckUserInit = Console.ReadLine();
 
@@ -137,7 +138,7 @@ namespace COMP_4204_ConsoleOnlineStore
             // >>>ADD A CONDITION STATEMENT HERE<<<
             L8:string i = CheckUserPwd;
             UserDetails userPass = new UserDetails();
-            //string password = userPass.Password;
+            UserDetails.UserPass = userPass.Password;
             //object value = userPass.Password;
             //Console.WriteLine(userPass.Password);
 
@@ -145,11 +146,14 @@ namespace COMP_4204_ConsoleOnlineStore
             {
                 Console.WriteLine("\tSearching...");
                 Thread.Sleep(1000);
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("\tAccess Granted");
-                if (userPass.Password == CheckUserPwd)
+                if (Password == CheckUserPwd)
                     SetAccount.UserAccount();
+                Console.Clear();
+                //.ForegroundColor = ConsoleColor.Green; <<<<<<<ISSUE HERE>>>>>>> NEEDS ERROR IN IF ELSE
+                 
+                Console.WriteLine("\tAccess Granted");
+                
+                
                 
                
             }
@@ -202,26 +206,64 @@ namespace COMP_4204_ConsoleOnlineStore
     {
         public static void UserAccount() 
         {
-            Console.WriteLine("\tYou are in the userAccount");
-            
-            Thread.Sleep(1000);
+            // Display User Account menu option
+            Console.WriteLine("\tWelcome to STORENAME"); // <<<CHANGE STORENAME
+            Console.WriteLine("\tPlease select an option below: \n\n");
+            Console.WriteLine("[1] Top-up");
+            Console.WriteLine("[2] Browse Store");
+            Console.WriteLine("[3] View Cart");
+            Console.WriteLine("[4] Log-out");
+            string selectedOption = Console.ReadLine();
+
+            switch (selectedOption)
+            {
+                case "1":
+                    TopUp();
+                    break;
+                case "2":
+                    Browse();
+                    break;
+                case "3":
+                    Cart();
+                    break;
+                case "4":
+                    StoreFront.StoreAccess();
+                    break;
+                default:
+                    Console.WriteLine("No match found");
+                    break;
+            }
             
             Console.ReadKey();
         }
         // Deposit funds to account = User Taken to Deposit menu
         public static void TopUp()
         { 
+            Console.WriteLine("You are in the Top-up function");
+            Console.WriteLine("\tPress any key to go back");
+            Console.ReadKey();
+            Thread.Sleep(100);
+            UserAccount();
+
 
         }
         // Start Shopping = opens to Category Menu()
         public static void Browse()
         {
-
+            Console.WriteLine("You are in the Browse function");
+            Console.WriteLine("\tPress any key to go back");
+            Console.ReadKey();
+            Thread.Sleep(100);
+            UserAccount();
         }
         // Display Cart = Items selected by user are added to a list, and the prices calculated when user performs purchase 
         public static void Cart()
         {
-
+            Console.WriteLine("You are in the Cart function");
+            Console.WriteLine("\tPress any key to go back");
+            Console.ReadKey();
+            Thread.Sleep(100);
+            UserAccount();
         }
         // Log-Out
         // Add requirements to throw error if user enters incorrect character.
